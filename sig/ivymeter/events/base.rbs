@@ -1,0 +1,94 @@
+module IvyMeter
+  class Event
+    include Prop
+
+    def self.inherited: (Class subclass) -> void
+    def self.property_mappings: () -> Hash[Symbol, Hash[Symbol, untyped]]
+    def self.from_json: (Hash[String, untyped] json_data) -> Event
+    def self.from_csv: (Hash[String, untyped] row) -> Event
+
+    def to_json: () -> String
+    def actual?: () -> bool
+    def assumed_actual?: () -> bool
+    def logical?: () -> bool
+    def assumed_logical?: () -> bool
+    def assumed?: () -> bool
+    def opcode: () -> IvyMeter::OpCode?
+    def stop_the_clock_scan?: () -> bool
+    def unexpected_opcode?: () -> bool
+    def clearance_cutoff_time: () -> String?
+    def mail_phase: () -> String?
+    def process_description: () -> String?
+
+    # Common properties
+    attr_accessor edoc_job_id: String?
+    attr_accessor edoc_mailing_group_id: String?
+    attr_accessor edoc_submitter_crid: String?
+
+    # Handling event properties
+    attr_accessor scan_datetime: DateTime?
+    attr_accessor scan_event_code: String?
+    attr_accessor scan_facility_city: String?
+    attr_accessor scan_facility_name: String?
+    attr_accessor scan_facility_state: String?
+    attr_accessor scan_facility_zip: String?
+    attr_accessor scan_locale_key: String?
+    attr_accessor handling_event_type: String?
+    attr_accessor handling_event_type_description: String?
+
+    # Mail properties
+    attr_accessor mail_class_description: String?
+    attr_accessor mail_shape_description: String?
+
+    # Scanner properties
+    attr_accessor scanner_type: String?
+    attr_accessor machine_name: String?
+    attr_accessor device_id: String?
+
+    # Start the clock properties
+    attr_accessor start_the_clock_date: Date?
+    attr_accessor start_the_clock_facility_address: String?
+    attr_accessor start_the_clock_facility_city: String?
+    attr_accessor start_the_clock_facility_locale_key: String?
+    attr_accessor start_the_clock_facility_name: String?
+    attr_accessor start_the_clock_facility_state: String?
+    attr_accessor start_the_clock_facility_zip: String?
+
+    # Recipient CRID properties
+    attr_accessor recipient_crid_of_mid_on_piece: String?
+    attr_accessor recipient_crid_of_mid_on_piece_delegator: String?
+    attr_accessor recipient_mail_owner_crid: String?
+    attr_accessor recipient_mail_owner_delegator_crid: String?
+    attr_accessor recipient_routing_code_authorized_crid: String?
+
+    # Operational status
+    attr_accessor operational_status: String?
+
+    # Common handling event properties
+    attr_accessor handling_event_datetime: String?
+    attr_accessor handling_event_facility_city: String?
+    attr_accessor handling_event_facility_name: String?
+    attr_accessor handling_event_facility_state: String?
+    attr_accessor handling_event_facility_zip: String?
+    attr_accessor handling_event_locale_key: String?
+    attr_accessor handling_event_scan_state: String?
+    attr_accessor handling_event_code: String?
+
+    # Common eDoc properties
+    attr_accessor edoc_container_id: String?
+    attr_accessor edoc_csa_agreement_id: String?
+    attr_accessor edoc_customer_group_id: String?
+    attr_accessor edoc_parent_container_id: String?
+    attr_accessor edoc_sibling_container_id: String?
+    attr_accessor edoc_user_license_code: String?
+
+    # Common recipient CRID properties
+    attr_accessor recipient_edoc_submitter_crid: String?
+    attr_accessor recipient_edoc_submitter_delegator_crid: String?
+    attr_accessor recipient_mail_preparer_crid: String?
+    attr_accessor recipient_mail_preparer_delegator_crid: String?
+
+    # Common mail properties
+    attr_accessor piece_count: String?
+  end
+end 

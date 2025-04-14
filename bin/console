@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'ivymeter'
+require 'json'
+
+# You can add fixtures and/or initialization code here to make experimenting
+# with your gem easier. You can also use a different console, if you like.
+
+require 'irb'
+
+$json = JSON.parse <<~EOJ
+  {
+        "mailShapeDescription": null,
+        "startTheClockFacilityAddress": null,
+        "recipientCridOfMidOnPiece": "13371337",
+        "idTag": null,
+        "recipientRoutingCodeAuthorizedCrid": null,
+        "pieceId": null,
+        "machineName": "DBOSS-002",
+        "ldeTriggerMethod": null,
+        "parentEdocContainerImcb": null,
+        "routingCodeImbMatchingPortion": "05669",
+        "edocSubmitterCrid": null,
+        "ldeDeliveryMode": null,
+        "parentContainerEdocContainerId": null,
+        "startTheClockFacilityCity": null,
+        "scanFacilityState": "VT",
+        "recipientMailOwnerCrid": null,
+        "scanEventCode": "481",
+        "scanDatetime": "2025-04-03 20:39:54-0400",
+        "impb": null,
+        "parentEdocTrayImtb": null,
+        "scanFacilityZip": "05452",
+        "imbTrackingCode": "00310904206969000063",
+        "imbRoutingCode": "05669",
+        "machineId": "002",
+        "startTheClockFacilityLocaleKey": null,
+        "recipientCridOfMidOnPieceDelegator": null,
+        "recipientMailOwnerDelegatorCrid": null,
+        "startTheClockFacilityZip": null,
+        "edocJobId": null,
+        "mailClassDescription": null,
+        "imb": "0031090420696900006305669",
+        "scanLocaleKey": "V28205",
+        "mailPhase": "Phase 1a - Origin Primary Processing",
+        "parentTrayEdocContainerId": null,
+        "edocMailingGroupId": null,
+        "predictedDeliveryDate": null,
+        "startTheClockFacilityState": null,
+        "scanFacilityCity": "ESSEX JUNCTION",
+        "anticipatedDeliveryDate": null,
+        "scannerType": null,
+        "imbStid": "310",
+        "imbSerialNumber": "000063",
+        "startTheClockDate": null,
+        "expectedDeliveryDate": null,
+        "handlingEventTypeDescription": "Actual",
+        "imbMid": "04206969",
+        "ldeInventoryMethod": null,
+        "handlingEventType": "A",
+        "startTheClockFacilityName": null,
+        "scanFacilityName": "BURLINGTON"
+      }
+EOJ
+
+$event = IvyMeter::Event::PieceEvent.from_json($json)
+
+IRB.start(__FILE__)

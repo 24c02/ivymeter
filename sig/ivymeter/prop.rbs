@@ -1,0 +1,18 @@
+module IvyMeter
+  module Prop
+    def self.included: (Module base) -> void
+
+    module ClassMethods
+      def prop: (
+        Symbol name,
+        String json_name,
+        String csv_name,
+        ?type: (:string | :date | :datetime)
+      ) -> void
+    end
+
+    def initialize: () -> void
+    def []: (String key) -> untyped
+    def []=: (String key, untyped value) -> untyped
+  end
+end 

@@ -1,0 +1,122 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'xsv'
+require 'pathname'
+
+module IvyMeter
+  class GenerateOperationCodes    
+    SHEET_CONFIGS = {
+      'OpCodes' => 1,
+      'Unexpected OpCodes' => 2
+    }.freeze
+
+    def self.from_xlsx(xlsx_file)
+      workbook = Xsv.open(xlsx_file)
+      results = {}
+
+      SHEET_CONFIGS.each do |sheet_name, config|
+        sheet = workbook.sheets.find { |s| s.name == sheet_name }
+        next unless sheet
+
+        setup_sheet(sheet, sheet[config])
+        results[sheet_name] = process_sheet(sheet, config)
+      end
+
+      [results['OpCodes'] || {}, results['Unexpected OpCodes'] || {}]
+    end
+
+    def self.setup_sheet(sheet, headers)
+      sheet.instance_variable_set(:@headers, headers)
+      sheet.instance_variable_set(:@mode, :hash)
+    end
+
+    def self.process_sheet(sheet, config)
+      sheet.each_with_index.each_with_object({}) do |(row, index), codes|
+        # next if index <= config
+
+        code = row['Operation Code'].to_s
+        next if code.empty?
+        code = code.rjust(3, '0') if code.match?(/^\d+$/)
+
+        codes[code] = build_code_attributes(row)
+      end
+    end
+
+    def self.build_code_attributes(row)
+      {
+        code: row['Operation Code'].to_s.rjust(3, '0'),
+        machine_type: row['Machine Type'].to_s,
+        equipment_description: row['Equipment Description'].to_s,
+        stop_the_clock_scan: row['Stop-the-Clock Scan?'].to_s == 'Yes',
+        clearance_cutoff_time: row['Clearance Cutoff Time'].to_s,
+        handling_event_type: row['Piece'].to_s,
+        piece_mail_type: row['Piece Mail Type'].to_s,
+        mail_level: row['Mail Level'].to_s,
+        mail_phase: row['Mail Phase'].to_s,
+        process_description: row['Process Description'].to_s,
+        available_date: row['Available Date'].to_s,
+        last_updated: row['Last Updated'].to_s
+      }
+    end
+
+    def self.write_ruby_code(opcodes, unexpected_codes, output_file)
+      puts "writing #{opcodes.size} operation codes and #{unexpected_codes.size} unexpected codes..."
+      
+      File.open(output_file, 'w') do |f|
+        f.write(<<~RUBY
+          # dis file is auto-generated from the xlsx file
+          # pwease do not edit it directly
+          module IvyMeter
+            class OperationCode
+
+              #{generate_constant('OPCODES', opcodes)}
+
+              #{generate_constant('UNEXPECTED_CODES', unexpected_codes)}
+            end
+          end
+        RUBY
+        )
+      end
+    end
+
+    def self.generate_constant(constant_name, codes)
+      sorted_codes = codes.sort_by do |code, _|
+        Integer(code)
+      rescue StandardError
+        9999
+      end
+
+      code_entries = sorted_codes.map do |code, attributes|
+        attributes_str = attributes.map do |key, value|
+          "            #{key}: #{value.inspect},"
+        end.join("\n")
+
+        <<RUBY
+        "#{code}" => new(
+#{attributes_str}
+        ),
+RUBY
+      end.join("\n")
+
+      <<RUBY
+#{constant_name} = {
+#{code_entries}
+}.freeze
+RUBY
+    end
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  if ARGV.length != 1
+    puts "Usage: #{$PROGRAM_NAME} <xlsx_file>"
+    exit 1
+  end
+
+  xlsx_file = ARGV[0]
+  opcodes, unexpected_codes = IvyMeter::GenerateOperationCodes.from_xlsx(xlsx_file)
+  output_file = Pathname.new(__dir__).join('..', 'lib', 'ivymeter', 'opcodes.rb')
+  IvyMeter::GenerateOperationCodes.write_ruby_code(opcodes, unexpected_codes, output_file)
+  puts "Generated operation codes in #{output_file}"
+end

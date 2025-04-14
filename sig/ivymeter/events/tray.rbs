@@ -1,0 +1,37 @@
+module IvyMeter
+  class Event::TrayEvent < Event
+    # Tray-specific properties
+    attr_accessor tray_id: String?
+    attr_accessor edoc_container_id: String?
+    attr_accessor edoc_container_zip: String?
+    attr_accessor edoc_csa_agreement_id: String?
+    attr_accessor edoc_customer_group_id: String?
+    attr_accessor edoc_parent_container_id: String?
+    attr_accessor edoc_sibling_container_id: String?
+    attr_accessor edoc_user_license_code: String?
+    attr_accessor piece_count: String?
+
+    # Tray IMb properties
+    attr_accessor imtb: String?
+    attr_accessor imtb_mid: String?
+    attr_accessor imtb_routing_code: String?
+    attr_accessor imtb_serial_number: String?
+    attr_accessor imtb_stid: String?
+    attr_accessor imtb_tracking_code: String?
+
+    # Tray-specific recipient CRID properties
+    attr_accessor recipient_crid_of_mid_on_tray: String?
+    attr_accessor recipient_crid_of_mid_on_tray_delegator: String?
+
+    # Parent references
+    attr_accessor parent_bundle_edoc_container_id: String?
+    attr_accessor parent_bundle_edoc_imb: String?
+
+    # Postage statement properties
+    attr_accessor postage_statement_finalization_datetime: DateTime?
+    attr_accessor postage_statement_finalization_facility_name: String?
+
+    # Routing code
+    attr_accessor routing_code_imtb_matching_portion: String?
+  end
+end 

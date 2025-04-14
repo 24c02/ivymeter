@@ -1,0 +1,46 @@
+module IvyMeter
+  class Event::PieceEvent < Event
+    # Delivery date properties
+    attr_accessor anticipated_delivery_date: Date?
+    attr_accessor expected_delivery_date: Date?
+    attr_accessor predicted_delivery_date: Date?
+
+    # IMb properties
+    attr_accessor imb: String?
+    attr_accessor imb_mid: String?
+    attr_accessor imb_routing_code: String?
+    attr_accessor imb_serial_number: String?
+    attr_accessor imb_stid: String?
+    attr_accessor imb_tracking_code: String?
+
+    # IMpb properties
+    attr_accessor impb: String?
+
+    # LDE properties
+    attr_accessor lde_delivery_mode: String?
+    attr_accessor lde_inventory_method: String?
+    attr_accessor lde_trigger_method: String?
+
+    # Mail phase
+    attr_accessor mail_phase: String?
+
+    # Operational status
+    attr_accessor operational_status: String?
+
+    # Parent references
+    attr_accessor parent_container_edoc_container_id: String?
+    attr_accessor parent_container_edoc_imtb: String?
+    attr_accessor parent_tray_edoc_container_id: String?
+    attr_accessor parent_tray_edoc_imtb: String?
+
+    # Piece identifier
+    attr_accessor piece_id: String?
+
+    # Postage statement properties
+    attr_accessor postage_statement_finalization_datetime: DateTime?
+    attr_accessor postage_statement_finalization_facility_name: String?
+
+    # Routing code
+    attr_accessor routing_code_imb_matching_portion: String?
+  end
+end 

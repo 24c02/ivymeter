@@ -1,0 +1,136 @@
+module IvyMeter
+  VERSION: String
+  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  class Error < StandardError
+  end
+
+  class Event
+    include Prop
+
+    def self.inherited: (Class) -> void
+    def self.prop: (Symbol name, String json_name, String csv_name, ?type: Symbol) -> void
+    def self.property_mappings: () -> Hash[Symbol, Hash[Symbol, untyped]]
+    def self.from_json: (Hash[Symbol, untyped] json_data) -> Event
+    def self.from_csv: (Hash[Symbol, untyped] row) -> Event
+
+    def to_json: () -> String
+    def actual?: () -> bool
+    def assumed_actual?: () -> bool
+    def logical?: () -> bool
+    def assumed_logical?: () -> bool
+    def assumed?: () -> bool
+    def opcode: () -> untyped
+    def stop_the_clock_scan?: () -> bool
+    def unexpected_opcode?: () -> bool
+    def clearance_cutoff_time: () -> untyped
+    def mail_phase: () -> untyped
+    def process_description: () -> untyped
+  end
+
+  class Event::ContainerEvent < Event
+    attr_accessor container_id: String
+    attr_accessor bundle_count: Integer
+    attr_accessor edoc_container_id: String
+    attr_accessor edoc_container_zip: String
+    attr_accessor edoc_csa_agreement_id: String
+    attr_accessor edoc_customer_group_id: String
+    attr_accessor edoc_parent_container_id: String
+    attr_accessor edoc_sibling_container_id: String
+    attr_accessor edoc_user_license_code: String
+    attr_accessor fast_appointment_scheduled_datetime: Time
+    attr_accessor fast_appointment_unload_end_time: Time
+    attr_accessor fast_appointment_unload_start_time: Time
+    attr_accessor piece_count: Integer
+    attr_accessor tray_count: Integer
+    attr_accessor imcb: String
+    attr_accessor imcb_mid: String
+    attr_accessor imcb_routing_code: String
+    attr_accessor imcb_serial_number: String
+    attr_accessor imcb_stid: String
+    attr_accessor imcb_tracking_code: String
+    attr_accessor recipient_crid_of_mid_on_container: String
+    attr_accessor recipient_crid_of_mid_on_container_delegator: String
+    attr_accessor recipient_fast_scheduler_crid: String
+    attr_accessor recipient_fast_scheduler_delegator_crid: String
+    attr_accessor parent_tray_edoc_container_id: String
+    attr_accessor parent_tray_edoc_imtb: String
+    attr_accessor postage_statement_finalization_datetime: Time
+    attr_accessor postage_statement_finalization_facility_name: String
+    attr_accessor routing_code_imcb_matching_portion: String
+  end
+
+  class Event::TrayEvent < Event
+    attr_accessor tray_id: String
+    attr_accessor edoc_container_id: String
+    attr_accessor edoc_container_zip: String
+    attr_accessor edoc_csa_agreement_id: String
+    attr_accessor edoc_customer_group_id: String
+    attr_accessor edoc_parent_container_id: String
+    attr_accessor edoc_sibling_container_id: String
+    attr_accessor edoc_user_license_code: String
+    attr_accessor piece_count: Integer
+    attr_accessor imtb: String
+    attr_accessor imtb_mid: String
+    attr_accessor imtb_routing_code: String
+    attr_accessor imtb_serial_number: String
+    attr_accessor imtb_stid: String
+    attr_accessor imtb_tracking_code: String
+    attr_accessor recipient_crid_of_mid_on_tray: String
+    attr_accessor recipient_crid_of_mid_on_tray_delegator: String
+    attr_accessor parent_bundle_edoc_container_id: String
+    attr_accessor parent_bundle_edoc_imb: String
+    attr_accessor postage_statement_finalization_datetime: Time
+    attr_accessor postage_statement_finalization_facility_name: String
+    attr_accessor routing_code_imtb_matching_portion: String
+  end
+
+  class Event::BundleEvent < Event
+    attr_accessor bundle_id: String
+    attr_accessor edoc_container_id: String
+    attr_accessor edoc_container_zip: String
+    attr_accessor edoc_csa_agreement_id: String
+    attr_accessor edoc_customer_group_id: String
+    attr_accessor edoc_parent_container_id: String
+    attr_accessor edoc_sibling_container_id: String
+    attr_accessor edoc_user_license_code: String
+    attr_accessor piece_count: Integer
+    attr_accessor imb: String
+    attr_accessor imb_mid: String
+    attr_accessor imb_routing_code: String
+    attr_accessor imb_serial_number: String
+    attr_accessor imb_stid: String
+    attr_accessor imb_tracking_code: String
+    attr_accessor recipient_crid_of_mid_on_bundle: String
+    attr_accessor recipient_crid_of_mid_on_bundle_delegator: String
+    attr_accessor postage_statement_finalization_datetime: Time
+    attr_accessor postage_statement_finalization_facility_name: String
+    attr_accessor routing_code_imb_matching_portion: String
+  end
+
+  class Event::PieceEvent < Event
+    attr_accessor anticipated_delivery_date: Date
+    attr_accessor expected_delivery_date: Date
+    attr_accessor predicted_delivery_date: Date
+    attr_accessor imb: String
+    attr_accessor imb_mid: String
+    attr_accessor imb_routing_code: String
+    attr_accessor imb_serial_number: String
+    attr_accessor imb_stid: String
+    attr_accessor imb_tracking_code: String
+    attr_accessor impb: String
+    attr_accessor lde_delivery_mode: String
+    attr_accessor lde_inventory_method: String
+    attr_accessor lde_trigger_method: String
+    attr_accessor mail_phase: String
+    attr_accessor operational_status: String
+    attr_accessor parent_container_edoc_container_id: String
+    attr_accessor parent_container_edoc_imtb: String
+    attr_accessor parent_tray_edoc_container_id: String
+    attr_accessor parent_tray_edoc_imtb: String
+    attr_accessor piece_id: String
+    attr_accessor postage_statement_finalization_datetime: Time
+    attr_accessor postage_statement_finalization_facility_name: String
+    attr_accessor routing_code_imb_matching_portion: String
+  end
+end

@@ -1,0 +1,48 @@
+module IvyMeter
+  class Event::ContainerEvent < Event
+    # Container-specific properties
+    attr_accessor container_id: String?
+    attr_accessor bundle_count: String?
+    attr_accessor edoc_container_id: String?
+    attr_accessor edoc_container_zip: String?
+    attr_accessor edoc_csa_agreement_id: String?
+    attr_accessor edoc_customer_group_id: String?
+    attr_accessor edoc_parent_container_id: String?
+    attr_accessor edoc_sibling_container_id: String?
+    attr_accessor edoc_user_license_code: String?
+
+    # FAST appointment properties
+    attr_accessor fast_appointment_scheduled_datetime: DateTime?
+    attr_accessor fast_appointment_unload_end_time: DateTime?
+    attr_accessor fast_appointment_unload_start_time: DateTime?
+
+    # Count properties
+    attr_accessor piece_count: String?
+    attr_accessor tray_count: String?
+
+    # Container IMb properties
+    attr_accessor imcb: String?
+    attr_accessor imcb_mid: String?
+    attr_accessor imcb_routing_code: String?
+    attr_accessor imcb_serial_number: String?
+    attr_accessor imcb_stid: String?
+    attr_accessor imcb_tracking_code: String?
+
+    # Container-specific recipient CRID properties
+    attr_accessor recipient_crid_of_mid_on_container: String?
+    attr_accessor recipient_crid_of_mid_on_container_delegator: String?
+    attr_accessor recipient_fast_scheduler_crid: String?
+    attr_accessor recipient_fast_scheduler_delegator_crid: String?
+
+    # Parent references
+    attr_accessor parent_tray_edoc_container_id: String?
+    attr_accessor parent_tray_edoc_imtb: String?
+
+    # Postage statement properties
+    attr_accessor postage_statement_finalization_datetime: DateTime?
+    attr_accessor postage_statement_finalization_facility_name: String?
+
+    # Routing code
+    attr_accessor routing_code_imcb_matching_portion: String?
+  end
+end 
