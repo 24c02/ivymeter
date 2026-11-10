@@ -68,7 +68,7 @@ module IvyMeter
           # dis file is auto-generated from the xlsx file
           # pwease do not edit it directly
           module IvyMeter
-            class OperationCode
+            class OpCode
 
               #{generate_constant('OPCODES', opcodes)}
 
